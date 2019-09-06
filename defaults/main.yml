@@ -6,11 +6,11 @@ magento_private_key: 'generate-your-private-keys-at-marketplace'
 
 # Hostname under Magento will be
 #magento_server_name: '{{ansible_nodename}}'
-magento_server_name: 'magento23ce.local'
+magento_server_name: 'magento23ee.local'
 
 # Magento docroot
 # On Apache servers default docroot most likely is /var/www/html
-magento_docroot: '/var/www/magento23ce.local/html'
+magento_docroot: '/var/www/magento23ee.local/html'
 
 # for CentOS 7 Apache it most likely will be apache:apache
 magento_owner: 'apache'
@@ -33,8 +33,8 @@ magento_backend_frontname: 'admin'
 
 # MySQL database
 magento_db_host: "{{ansible_eth1.ipv4.address | default('localhost') }}"
-magento_db_name: 'magento'
-magento_db_user: 'magento'
+magento_db_name: 'magento23ee'
+magento_db_user: 'magento23ee'
 magento_db_password: 'magento'
 
 # Language

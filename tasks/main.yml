@@ -1,4 +1,4 @@
 ---
   - include: mysql.yml
   - include: httpd_vhost.yml
-  - include: magento23_community.yml
+  - include: magento23_commerce.yml

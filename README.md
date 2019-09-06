@@ -1,24 +1,24 @@
-# Ansible role for Magento 2.3.x
-Ansible role for Magento 2.3.x
+# Ansible role for Magento 2.3.x Commerce
+Ansible role for Magento 2.3.x Commerce
 
 ## What's inside?
 1. Magento 2.3.x
-    - Frontend: `http://magento23ee.local/` or `http://magento23ce.local/`
-    - Backend: `http://magento23ee.local/admin` or `http://magento23ce.local/admin` (default admin user: `admin`, password: `Admin12`)
+    - Frontend: `http://magento23ee.local/`
+    - Backend: `http://magento23ee.local/admin` (default admin user: `admin`, password: `Admin12`)
 2. MySQL database
     - host: vagrant machine's ip
     - port: default (3306)
-    - db name: `magento23ee` for Commerce version, `magento23ce` for Community version
+    - db name: `magento23ee`
     - user: `magento`
     - password: `magento`
 3. Use of Redis databases: 0, 1 and 2 (page cache, backed cache, sessions)
 4. Sample data (not installed by default)
 5. Custom settings as per `defaults/main.yml`
 6. Host
-    - server name `magento23ee.local` and/or `magento23ce.local` 
+    - server name `magento23ee.local` 
         - used for Magento installation
         - set in `/etc/hosts` 
-    - docroot: `/var/www/magento23ee.local/html/` or `/var/www/magento23ce.local/html/`
+    - docroot: `/var/www/magento23ee.local/html/`
 5. Logs located in docroot:
     - var/log/connector.log
     - var/log/debug.log

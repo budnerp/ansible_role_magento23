@@ -1,5 +1,5 @@
 ---
-  - name: MAGENTO 2.3 COMMUNITY - add {{magento_server_name}} do /etc/hosts
+  - name: MAGENTO 2.3 COMMERCE - add {{magento_server_name}} do /etc/hosts
     shell: 'grep -e "{{magento_server_name}}" /etc/hosts | wc -l'
     register: check_hosts
 
@@ -10,21 +10,21 @@
       group: root
     when: check_hosts.stdout == '0'
 
-  - name: MAGENTO 2.3 COMMUNITY - check if Magento already exists
+  - name: MAGENTO 2.3 COMMERCE - check if Magento already exists
     stat:
       path: '{{magento_docroot}}/index.php'
     register: magento_index_result
 
-  - name: MAGENTO 2.3 COMMUNITY - create project and install
+  - name: MAGENTO 2.3 COMMERCE - create project and install
     block:
-      - name: MAGENTO 2.3 COMMUNITY - set repository global config using Composer
+      - name: MAGENTO 2.3 COMMERCE - set repository global config using Composer
         command: composer global config http-basic.repo.magento.com "{{ magento_public_key }}" "{{ magento_private_key }}"
         no_log: true
 
-      - name: MAGENTO 2.3 COMMUNITY - create Magento 2.3 project via Composer
-        command: /usr/local/bin/composer create-project --repository=https://repo.magento.com/ magento/project-community-edition {{ magento_docroot }}
+      - name: MAGENTO 2.3 COMMERCE - create Magento 2.3 project via Composer
+        command: /usr/local/bin/composer create-project --repository=https://repo.magento.com/ magento/project-enterprise-edition {{ magento_docroot }}
 
-      - name: MAGENTO 2.3 COMMUNITY - set PHP memory_limit {{ magento_php_memory_limit }}
+      - name: MAGENTO 2.3 COMMERCE - set PHP memory_limit {{ magento_php_memory_limit }}
         replace:
           path: '{{item.path}}'
           regexp: '{{item.regexp}}'
@@ -35,7 +35,7 @@
           - { path: '{{magento_docroot}}/.user.ini', regexp: 'memory_limit = 756M', replace: 'memory_limit = {{magento_php_memory_limit}}' }
           - { path: '{{magento_docroot}}/pub/.user.ini', regexp: 'memory_limit = 756M', replace: 'memory_limit = {{magento_php_memory_limit}}' }
 
-      - name: MAGENTO 2.3 COMMUNITY - copy auth.json {{magento_docroot}}/auth.json
+      - name: MAGENTO 2.3 COMMERCE - copy auth.json {{magento_docroot}}/auth.json
         template:
           src: var/www/html/auth.json.j2
           dest: '{{magento_docroot}}/auth.json'
@@ -43,11 +43,11 @@
           group: '{{magento_owner_group}}'
           mode: 0664
 
-      - name: MAGENTO 2.3 COMMUNITY - add sample data
+      - name: MAGENTO 2.3 COMMERCE - add sample data
         command: '{{magento_php_executable}} {{magento_docroot}}/bin/magento sampledata:deploy'
         when: magento_sampledata_install == '1' and magento_deploy_mode == 'developer'
 
-      - name: MAGENTO 2.3 COMMUNITY - copy reinstall script {{magento_docroot}}/reinstall.sh
+      - name: MAGENTO 2.3 COMMERCE - copy reinstall script {{magento_docroot}}/reinstall.sh
         template:
           src: var/www/html/reinstall.sh.j2
           dest: '{{magento_docroot}}/reinstall.sh'
@@ -55,14 +55,14 @@
           group: '{{magento_owner_group}}'
           mode: 0774
 
-      - name: MAGENTO 2.3 COMMUNITY - flush Redis databases
+      - name: MAGENTO 2.3 COMMERCE - flush Redis databases
         shell: 'redis-cli flushall'
         when: magento_session_save == 'redis' or magento_cache_backend == 'redis' or magento_page_cache == 'redis'
 
-      - name: MAGENTO 2.3 COMMUNITY - install
+      - name: MAGENTO 2.3 COMMERCE - install
         shell: '{{magento_docroot}}/reinstall.sh'
 
-      - name: MAGENTO 2.3 COMMUNITY - install cron
+      - name: MAGENTO 2.3 COMMERCE - install cron
         command: '{{magento_php_executable}} {{magento_docroot}}/bin/magento {{item}}'
         become: yes
         become_user: '{{magento_owner}}'
@@ -71,13 +71,13 @@
           - 'cron:install'
         when: magento_cron_install == '1'
 
-      - name: MAGENTO 2.3 COMMUNITY - turn caching on
+      - name: MAGENTO 2.3 COMMERCE - turn caching on
         command: '{{magento_php_executable}} {{magento_docroot}}/bin/magento cache:enable'
 
-      - name: MAGENTO 2.3 COMMUNITY - set deploy mode
+      - name: MAGENTO 2.3 COMMERCE - set deploy mode
         command: '{{magento_php_executable}} {{magento_docroot}}/bin/magento deploy:mode:set {{magento_deploy_mode}}'
 
-      - name: MAGENTO 2.3 COMMUNITY - copy Siege URL file to {{magento_docroot}}/siege_urls.txt
+      - name: MAGENTO 2.3 COMMERCE - copy Siege URL file to {{magento_docroot}}/siege_urls.txt
         template:
           src: var/www/html/siege_urls.txt.j2
           dest: '{{magento_docroot}}/siege_urls.txt'
@@ -87,7 +87,7 @@
     when: magento_index_result.stat.exists == false
 
 
-  - name: MAGENTO 2.3 COMMUNITY - copy Siege URL file to {{magento_docroot}}/siege_urls.txt
+  - name: MAGENTO 2.3 COMMERCE - copy Siege URL file to {{magento_docroot}}/siege_urls.txt
     template:
       src: var/www/html/siege_urls.txt.j2
       dest: '{{magento_docroot}}/siege_urls.txt'
