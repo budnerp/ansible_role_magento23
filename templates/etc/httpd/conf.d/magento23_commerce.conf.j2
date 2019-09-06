@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+    ServerName {{magento_server_name}}
+    DocumentRoot {{magento_docroot}}
+    <Directory {{magento_docroot}}>
+                    Options Indexes FollowSymLinks MultiViews
+                    AllowOverride All
+                    Order allow,deny
+                    allow from all
+    </Directory>
+</VirtualHost>

@@ -1,0 +1,206 @@
+---
+# Authorization keys
+# Generated in Magento Marketplace official site https://marketplace.magento.com/customer/accessKeys/
+magento_public_key: 'generate-your-public-keys-at-marketplace'
+magento_private_key: 'generate-your-private-keys-at-marketplace'
+
+# Hostname under Magento will be
+#magento_server_name: '{{ansible_nodename}}'
+magento_server_name: 'magento23ce.local'
+
+# Magento docroot
+# On Apache servers default docroot most likely is /var/www/html
+magento_docroot: '/var/www/magento23ce.local/html'
+
+# for CentOS 7 Apache it most likely will be apache:apache
+magento_owner: 'apache'
+magento_owner_group: 'apache'
+
+# PHP exec
+magento_php_executable: '/usr/bin/php'
+
+# Leave empty value if need to omit an option
+# Admin details
+magento_admin_firstname: 'John'
+magento_admin_lastname: 'Doe'
+magento_admin_email: 'john.doe@gmail.com'
+magento_admin_user: 'admin'
+magento_admin_password: 'Admin12'
+
+# URLs
+magento_base_url: 'http://{{magento_server_name}}'
+magento_backend_frontname: 'admin'
+
+# MySQL database
+magento_db_host: "{{ansible_eth1.ipv4.address | default('localhost') }}"
+magento_db_name: 'magento'
+magento_db_user: 'magento'
+magento_db_password: 'magento'
+
+# Language
+magento_language: 'en_US'
+
+# Currency; https://gist.github.com/CajuCLC/063fd8b91a1748d5b473d2c062f38bd1
+magento_currency: 'USD'
+
+# Timezones; https://gist.github.com/CajuCLC/0a92e071c331103d0defa7374e92df0a
+magento_timezone: 'America/Chicago'
+
+# Other
+magento_use_rewrites: '1'
+magento_use_secure: '0'
+magento_use_secure_admin: '0'
+magento_admin_use_security_key: '0'
+magento_cleanup_database: '--cleanup-database'
+magento_cron_install: '1'
+magento_verbosity: '-vv'
+# Add sample data before install
+magento_sampledata_install: '0'
+# Magento mode. Can be either developer or production
+magento_deploy_mode: 'developer'
+
+# PHP
+# Memory limit saved in .htaccess, .user.ini, pub/.htaccess, pub/.user.ini
+# These values can be overwritten by PHP and/or PHP-FPM settings
+magento_php_memory_limit: '1536M'
+
+# Use Redis for session storage
+# Session can be saved as: files, db, redis
+magento_session_save: 'redis'
+
+# Fully qualified hostname, IP address, or absolute path if using UNIX sockets.
+# Default: localhost
+magento_session_save_redis_host: '127.0.0.1'
+
+# Redis server listen port.
+# Default: 6379
+magento_session_save_redis_port: '6379'
+
+# Specifies a password if your Redis server requires authentication.
+# Default: empty
+magento_session_save_redis_password: ''
+
+# Connection timeout, in seconds.|
+# Default: 2.5
+magento_session_save_redis_timeout: '2.5'
+
+# Unique string to enable persistent connections (for example, sess-db0).
+magento_session_save_redis_persistent_id: 'sess-db02'
+
+# Unique Redis database number, which is recommended to protect against data loss.
+# Important: If you use Redis for more than one type of caching, the database numbers must be different.
+# It is recommended that you assign:
+#   the default caching database number to 0,
+#   the page caching database number to 1,
+#   the session storage database number to 2.
+# Default: 0
+magento_session_save_redis_db: '2'
+
+# Set to 0 to disable compression (recommended when suhosin.session.encrypt = On)
+# Known issue with strings of more than 64KB.
+# Default: 2048
+magento_session_save_redis_compression_threshold: '2048'
+
+# Compression library
+# Options: gzip, lzf, lz4 or snappy.
+# Default: gzip
+magento_session_save_redis_compression_lib: 'gzip'
+
+# Set to any of the following, listed in order from least verbose to most verbose:
+# 0 (emergency: only the most severe errors)
+# 1 (alert: immediate action required)
+# 2 (critical: application component unavailable)
+# 3 (error: runtime errors, not critical but must be monitored)
+# 4 (warning: additional information, recommended)
+# 5 (notice: normal but significant condition)
+# 6 (info: informational messages)
+# Default: 1
+magento_session_save_redis_log_level: '4'
+
+# Maximum number of processes that can wait for a lock on one session.
+# For large production clusters, set this to at least 10% of the number of PHP processes.
+# Default: 6
+magento_session_save_redis_max_concurrency: '6'
+
+# Number of seconds to wait before trying to break the lock for frontend (that is, storefront) session.
+# Default: 5
+magento_session_save_redis_break_after_frontend: '5'
+
+# Number of seconds to wait before trying to break the lock for an adminhtml (that is, Magento Admin) session.
+# Default: 30
+magento_session_save_redis_break_after_adminhtml: '30'
+
+# Lifetime, in seconds, of session for non-bots on the first write, or use 0 to disable.
+# Default: 600
+magento_session_save_redis_first_lifetime: '600'
+
+# Lifetime, in seconds, of session for bots on the first write, or use 0 to disable.
+# Default: 60
+magento_session_save_redis_bot_first_lifetime: '60'
+
+# Lifetime, in seconds, of session for bots on subsequent writes, or use 0 to disable.
+# Default: 7200
+magento_session_save_redis_bot_lifetime: '7200'
+
+# Disable session locking entirely.
+# Default: false
+magento_session_save_redis_disable_locking: '0'
+
+# Minimum session lifetime, in seconds.
+# Default: 60
+magento_session_save_redis_min_lifetime: '60'
+
+# Maximum session lifetime, in seconds.
+# Default: 2592000 (720 hours)
+magento_session_save_redis_max_lifetime: '2592000'
+
+# Redis Sentinel master name
+# Default: empty
+magento_session_save_redis_sentinel_master: ''
+
+# List of Redis Sentinel servers, comma separated
+# Default: empty
+magento_session_save_redis_sentinel_servers: ''
+
+# Verify Redis Sentinel master status flag
+# Default: 0 (false)
+magento_session_save_redis_sentinel_verify_master: '0'
+
+# Connection retries for sentinels
+# Default: 5
+magento_session_save_redis_sentinel_connect_retires: '5'
+
+# Cache
+# Default cache handler
+magento_cache_backend: 'redis'
+
+# Redis server
+magento_cache_backend_redis_server: '{{magento_session_save_redis_host}}'
+
+# Database number for the cache
+magento_cache_backend_redis_db: '0'
+
+# Redis server listen port
+magento_cache_backend_redis_port: '{{magento_session_save_redis_port}}'
+
+# Redis server password
+magento_cache_backend_redis_password: ''
+
+# Page cache
+# Default cache handler
+magento_page_cache: 'redis'
+
+# Redis server
+magento_page_cache_redis_server: '127.0.0.1'
+
+# Database number for the cache
+magento_page_cache_redis_db: '1'
+
+# Redis server listen port
+magento_page_cache_redis_port: '6379'
+
+# Set to 1 to compress the full page cache (use 0 to disable)
+magento_page_cache_redis_compress_data: '1'
+
+#Redis server password
+magento_page_cache_redis_password: ''

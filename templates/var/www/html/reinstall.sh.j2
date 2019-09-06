@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+cd {{magento_docroot}}
+
+chown -R {{magento_owner}}:{{magento_owner_group}} .
+rm -rf generated/metadata/*
+rm -rf generated/code/*
+rm -rf var/page_cache/*
+rm -rf var/cache/*
+rm -rf var/view_preprocessed/*
+
+composer install
+
+{{magento_php_executable}} bin/magento setup:install \
+                                             --admin-firstname={{magento_admin_firstname}} \
+                                             --admin-lastname={{magento_admin_lastname}} \
+                                             --admin-email={{magento_admin_email}} \
+                                             --admin-user={{magento_admin_user}} \
+                                             --admin-password={{magento_admin_password}} \
+                                             --base-url={{magento_base_url}} \
+                                             --backend-frontname={{magento_backend_frontname}} \
+                                             --db-host={{magento_db_host}} \
+                                             --db-name={{magento_db_name}} \
+                                             --db-user={{magento_db_user}} \
+                                             --db-password={{magento_db_password}} \
+                                             --language="{{magento_language}}" \
+                                             --currency="{{magento_currency}}" \
+                                             --timezone="{{magento_timezone}}" \
+                                             --use-rewrites={{magento_use_rewrites}} \
+                                             --use-secure={{magento_use_secure}} \
+                                             --use-secure-admin={{magento_use_secure_admin}} \
+                                             --admin-use-security-key={{magento_admin_use_security_key}} \
+                                             --session-save={{magento_session_save}} \
+                                             --session-save-redis-host="{{magento_session_save_redis_host}}" \
+                                             --session-save-redis-port="{{magento_session_save_redis_port}}" \
+                                             --session-save-redis-password="{{magento_session_save_redis_password}}" \
+                                             --session-save-redis-timeout="{{magento_session_save_redis_timeout}}" \
+                                             --session-save-redis-persistent-id="{{magento_session_save_redis_persistent_id}}" \
+                                             --session-save-redis-db="{{magento_session_save_redis_db}}" \
+                                             --session-save-redis-compression-threshold="{{magento_session_save_redis_compression_threshold}}" \
+                                             --session-save-redis-compression-lib="{{magento_session_save_redis_compression_lib}}" \
+                                             --session-save-redis-log-level="{{magento_session_save_redis_log_level}}" \
+                                             --session-save-redis-max-concurrency="{{magento_session_save_redis_max_concurrency}}" \
+                                             --session-save-redis-break-after-frontend="{{magento_session_save_redis_break_after_frontend}}" \
+                                             --session-save-redis-break-after-adminhtml="{{magento_session_save_redis_break_after_adminhtml}}" \
+                                             --session-save-redis-first-lifetime="{{magento_session_save_redis_first_lifetime}}" \
+                                             --session-save-redis-bot-first-lifetime="{{magento_session_save_redis_bot_first_lifetime}}" \
+                                             --session-save-redis-bot-lifetime="{{magento_session_save_redis_bot_lifetime}}" \
+                                             --session-save-redis-disable-locking="{{magento_session_save_redis_disable_locking}}" \
+                                             --session-save-redis-min-lifetime="{{magento_session_save_redis_min_lifetime}}" \
+                                             --session-save-redis-max-lifetime="{{magento_session_save_redis_max_lifetime}}" \
+                                             --session-save-redis-sentinel-master="{{magento_session_save_redis_sentinel_master}}" \
+                                             --session-save-redis-sentinel-servers="{{magento_session_save_redis_sentinel_servers}}" \
+                                             --session-save-redis-sentinel-verify-master="{{magento_session_save_redis_sentinel_verify_master}}" \
+                                             --session-save-redis-sentinel-connect-retires="{{magento_session_save_redis_sentinel_connect_retires}}" \
+                                             --cache-backend="{{magento_cache_backend}}" \
+                                             --cache-backend-redis-server="{{magento_cache_backend_redis_server}}" \
+                                             --cache-backend-redis-db="{{magento_cache_backend_redis_db}}" \
+                                             --cache-backend-redis-port="{{magento_cache_backend_redis_port}}" \
+                                             --page-cache="{{magento_page_cache}}" \
+                                             --page-cache-redis-server="{{magento_page_cache_redis_server}}" \
+                                             --page-cache-redis-db="{{magento_page_cache_redis_db}}" \
+                                             --page-cache-redis-port="{{magento_page_cache_redis_port}}" \
+                                             --page-cache-redis-compress-data="{{magento_page_cache_redis_compress_data}}" \
+                                             {{magento_cleanup_database}} \
+                                             {{magento_verbosity}}
+
+#chown -R {{magento_owner}}:{{magento_owner_group}} .
+
+find . -type d -exec chmod 775 {} \;
+find . -type f -exec chmod 664 {} \;
+chmod u+x bin/magento
+find ./var -type d -exec chmod 777 {} \;
+find ./pub/media -type d -exec chmod 777 {} \;
+find ./pub/static -type d -exec chmod 777 {} \;
+chmod 777 ./app/etc
+chmod 664 ./app/etc/*.xml
+# chcon -R -t httpd_sys_content_t .
+
+# needed to run Code Sniffer, Mess Detector, PHPUnit from commad line
+#chmod 764 ./vendor/squizlabs/php_codesniffer/scripts/phpcs
+#chmod 764 ./vendor/phpmd/phpmd/src/bin/phpmd
+#chmod 764 ./vendor/phpunit/phpunit/phpunit
+
+#{{magento_php_executable}} bin/magento setup:di:compile
+#{{magento_php_executable}} bin/magento setup:static-content:deploy
+#{{magento_php_executable}} bin/magento cache:flush
+
+chown -R {{magento_owner}}:{{magento_owner_group}} .
