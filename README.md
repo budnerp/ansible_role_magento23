@@ -48,12 +48,13 @@ Ansible role for Magento 2.3.x Commerce
     192.168.33.10 magento23ee.local
     192.168.33.10 magento23ce.local
     ```
-5. Provision your machine
-6. SSH onto the machine
+5. Add Magento repository keys to `ansible_role_magento23_commerce/defaults/main.yml`
+6. Provision your machine
+7. SSH onto the machine
     ```
     vagrant ssh
     ```
-7. Login to mysql console (see ansible_role_mysql's [README.md](https://github.com/budnerp/ansible_role_mysql/blob/master/README.md))
+8. Login to mysql console (see ansible_role_mysql's [README.md](https://github.com/budnerp/ansible_role_mysql/blob/master/README.md))
     ```
     mysql -u root -p
     ```
@@ -61,7 +62,7 @@ Ansible role for Magento 2.3.x Commerce
     ```
     mysql -u magento -p 
     ```
-8. Validate
+9. Validate
     - existence of `magento` user
         ```
         SELECT User FROM mysql.user;
@@ -81,10 +82,10 @@ Ansible role for Magento 2.3.x Commerce
         | GRANT ALL PRIVILEGES ON `magento`.* TO 'magento'@'localhost' |
         +--------------------------------------------------------------+
         ```
-9. To verify that Redis and Magento are working together follow instructions from 
+10. To verify that Redis and Magento are working together follow instructions from 
 [https://devdocs.magento.com/guides/v2.3/config-guide/redis/redis-session.html]()
-10. Login to admin panel
-11. Change your password 
+11. Login to admin panel
+12. Change your password 
 
 ## Tuning
 To increase memory_limit change memory_limit values in 
