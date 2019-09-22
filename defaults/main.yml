@@ -4,7 +4,7 @@
 magento_public_key: 'generate-your-public-keys-at-marketplace'
 magento_private_key: 'generate-your-private-keys-at-marketplace'
 
-# Hostname under Magento will be
+# Hostname under Magento will be available
 #magento_server_name: '{{ansible_nodename}}'
 magento_server_name: 'magento23ee.local'
 
