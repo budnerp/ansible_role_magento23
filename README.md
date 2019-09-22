@@ -2,9 +2,9 @@
 Ansible role for Magento 2.3.x Commerce
 
 ## What's inside?
-1. Magento 2.3.x
-    - Frontend: `http://magento23ee.local/`
-    - Backend: `http://magento23ee.local/admin` (default admin user: `admin`, password: `Admin12`)
+1. Magento 2.3.x over HTTPS
+    - Frontend: `https://magento23ee.local/`
+    - Backend: `https://magento23ee.local/admin` (default admin user: `admin`, password: `Admin12`)
 2. MySQL database
     - host: vagrant machine's ip
     - port: default (3306)
@@ -63,23 +63,23 @@ Ansible role for Magento 2.3.x Commerce
     mysql -u magento -p 
     ```
 9. Validate
-    - existence of `magento` user
+    - existence of `magento23ee` user
         ```
         SELECT User FROM mysql.user;
         ```
     - privileges
         ```
-        SHOW GRANTS FOR magento@localhost;
-        SHOW GRANTS FOR magento@webapp;
-        SHOW GRANTS FOR magento@192.186.33.10;
+        SHOW GRANTS FOR magento23ee@localhost;
+        SHOW GRANTS FOR magento23ee@webapp;
+        SHOW GRANTS FOR magento23ee@192.168.33.10;
         ```
         Expect following and similar:
         ```
         +--------------------------------------------------------------+
         | Grants for magento@localhost                                 |
         +--------------------------------------------------------------+
-        | GRANT USAGE ON *.* TO 'magento'@'localhost'                  |
-        | GRANT ALL PRIVILEGES ON `magento`.* TO 'magento'@'localhost' |
+        | GRANT USAGE ON *.* TO 'magento23ee'@'localhost'                  |
+        | GRANT ALL PRIVILEGES ON `magento23ee`.* TO 'magento23ee'@'localhost' |
         +--------------------------------------------------------------+
         ```
 10. To verify that Redis and Magento are working together follow instructions from 

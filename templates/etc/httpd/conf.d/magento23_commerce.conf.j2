@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:443>
     ServerName {{magento_server_name}}
     DocumentRoot {{magento_docroot}}
     <Directory {{magento_docroot}}>
@@ -7,4 +7,14 @@
                     Order allow,deny
                     allow from all
     </Directory>
+    SSLEngine on
+    SLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
 </VirtualHost>
+
+<VirtualHost *:80>
+    ServerName {{magento_server_name}}
+    Redirect "/" "https://{{magento_server_name}}/"
+</VirtualHost>
+
+Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains"

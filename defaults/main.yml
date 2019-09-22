@@ -29,6 +29,7 @@ magento_admin_password: 'Admin12'
 
 # URLs
 magento_base_url: 'http://{{magento_server_name}}'
+magento_base_url_secure: 'https://{{magento_server_name}}'
 magento_backend_frontname: 'admin'
 
 # MySQL database
@@ -48,8 +49,8 @@ magento_timezone: 'America/Chicago'
 
 # Other
 magento_use_rewrites: '1'
-magento_use_secure: '0'
-magento_use_secure_admin: '0'
+magento_use_secure: '1'
+magento_use_secure_admin: '1'
 magento_admin_use_security_key: '0'
 magento_cleanup_database: '--cleanup-database'
 magento_cron_install: '1'

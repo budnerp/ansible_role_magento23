@@ -1,12 +1,63 @@
 ---
+  - name: MAGENTO 2.3 COMMERCE - install SSL apache module
+    yum:
+      name: mod_ssl
+      state: installed
+
+  - name: MAGENTO 2.3 COMMERCE - check if Magento vhost already exists
+    stat:
+      path: '/etc/httpd/conf.d/magento23_commerce.conf'
+    register: magento_vhost_result
+
   - name: MAGENTO 2.3 COMMERCE - add vhost configuration
-    template:
-      src: etc/httpd/conf.d/magento23_commerce.conf.j2
-      dest: /etc/httpd/conf.d/magento23_commerce.conf
-      owner: root
-      group: root
-      mode: 0644
-    notify:
-      - restart apache
+    block:
+      - name: MAGENTO 2.3 COMMERCE - create /etc/ssl/private to store SSL private key
+        file:
+          path: '/etc/ssl/private'
+          state: directory
+          owner: root
+          group: root
+          mode: 0700
+
+      - name: MAGENTO 2.3 COMMERCE - create SSL certificate
+        expect:
+          echo: yes
+          command: 'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/pki/tls/private/apache-selfsigned.key -out /etc/pki/tls/certs/apache-selfsigned.crt'
+          responses:
+            'Country Name (2 letter code) [XX]': 'PL'
+            'State or Province Name (full name) []': 'Lodzkie'
+            'Locality Name (eg, city) [Default City]': 'Lodz'
+            'Organization Name (eg, company) [Default Company Ltd]': 'Default Company Ltd'
+            'Organizational Unit Name (eg, section) []': 'DevOps Dept'
+            "Common Name (eg, your name or your server\'s hostname) []": '{{magento_server_name}}'
+            'Email Address []': 'webmaster@{{magento_server_name}}'
+        become: yes
+        become_user: root
+
+#      - name: MAGENTO 2.3 COMMERCE - create SSL certificate
+#        shell: 'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/pki/tls/private/apache-selfsigned.key -out /etc/pki/tls/certs/apache-selfsigned.crt'
+#        become: yes
+#        become_user: root
+
+      - name: MAGENTO 2.3 COMMERCE - generate Diffie-Hellman group to negotiate Perfect Forward Secrecy with clients
+        shell: 'openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048'
+        become: yes
+        become_user: root
+
+      - name: MAGENTO 2.3 COMMERCE - append Diffie-Hellman file to the end of our self-signed certificate
+        shell: 'cat /etc/ssl/certs/dhparam.pem | sudo tee -a /etc/ssl/certs/apache-selfsigned.crt'
+        become: yes
+        become_user: root
+
+      - name: MAGENTO 2.3 COMMERCE - copy vhost magento23_commerce.conf configuration
+        template:
+          src: etc/httpd/conf.d/magento23_commerce.conf.j2
+          dest: /etc/httpd/conf.d/magento23_commerce.conf
+          owner: root
+          group: root
+          mode: 0644
+        notify:
+          - restart apache
+    when: magento_vhost_result.stat.exists == false
 
     # conf.d/*.conf
