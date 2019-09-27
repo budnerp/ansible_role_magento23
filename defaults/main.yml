@@ -1,8 +1,8 @@
 ---
 # Authorization keys
 # Generated in Magento Marketplace official site https://marketplace.magento.com/customer/accessKeys/
-magento_public_key: 'generate-your-public-keys-at-marketplace'
-magento_private_key: 'generate-your-private-keys-at-marketplace'
+magento_public_key: ''
+magento_private_key: ''
 
 # Hostname under Magento will be available
 #magento_server_name: '{{ansible_nodename}}'
