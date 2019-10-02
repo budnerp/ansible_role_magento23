@@ -1,4 +1,14 @@
 ---
+  - pause:
+      prompt: "What is your Magento public key?"
+    when: magento_public_key==''
+    register: magento_public_key
+
+  - pause:
+      prompt: "What is your Magento private key?"
+    when: magento_private_key==''
+    register: magento_private_key
+
   - include: mysql.yml
   - include: httpd_vhost.yml
   - include: magento23_commerce.yml
