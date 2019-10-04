@@ -1,0 +1,27 @@
+---
+#  - name: MAGENTO 2.3 COMMERCE - install grunt-cli and prepare file scaffold
+#    block:
+#    when: magento_index_result.stat.exists == false
+
+  - name: MAGENTO 2.3 COMMERCE - install grunt-cli
+    npm:
+      name: grunt-cli
+      global: yes
+      state: present
+
+  - name: MAGENTO 2.3 COMMERCE - prepare package.json, Gruntfile.js, grunt-config.json
+    copy:
+      src: '{{item.src}}'
+      dest: '{{item.dest}}'
+      owner: '{{magento_owner}}'
+      group: '{{magento_owner_group}}'
+      mode: 0664
+    with_items:
+      - { src: '{{magento_docroot}}/package.json.sample', dest: '{{magento_docroot}}/package.json' }
+      - { src: '{{magento_docroot}}/Gruntfile.js.sample', dest: '{{magento_docroot}}/Gruntfile.js' }
+      - { src: '{{magento_docroot}}/grunt-config.json.sample', dest: '{{magento_docroot}}/grunt-config.json' }
+
+  - name: MAGENTO 2.3 COMMERCE - install/refresh the Node.js project dependencies
+    npm:
+      path: '{{magento_docroot}}'
+      state: latest

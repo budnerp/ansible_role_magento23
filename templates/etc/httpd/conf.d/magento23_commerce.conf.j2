@@ -12,9 +12,4 @@
     SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
 </VirtualHost>
 
-<VirtualHost *:80>
-    ServerName {{magento_server_name}}
-    Redirect "/" "https://{{magento_server_name}}/"
-</VirtualHost>
-
 Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains"
