@@ -1,0 +1,12 @@
+---
+dependencies:
+  - role: ansible_role_common
+  - role: ansible_role_php72
+  - role: ansible_role_php72_xdebug
+  - role: ansible_role_mysql
+  - role: ansible_role_redis
+  - role: ansible_role_rabbitmq
+  - role: ansible_role_nodejs
+  - role: ansible_role_mailcatcher
+  - role: ansible_role_siege
+  - role: ansible_role_elasticsearch
